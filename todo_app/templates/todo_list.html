@@ -6,6 +6,22 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Hello World!</h1>
+    <h1>Things I nned to do</h1>
+    <table>
+        {%for item in items%}
+        <tr>
+            {%if item.done %}
+            <td><strike>{{item.name}}</strike></td>
+            {%else%}
+            <td>{{item.name}}</td>
+            {%endif%}
+        </tr>
+        {%empty%}
+        <tr>
+            <td>You have nothing</td>
+        </tr>
+        {%endfor%}
+    </table>
+    <a href="/add">Add an Item</a>
 </body>
 </html>
