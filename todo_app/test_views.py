@@ -1,7 +1,8 @@
-from django.test import TestCase
+from django.test import TestCase, Client
 from django.urls import reverse
 from .models import Item
 from .forms import ItemForm
+
 
 class TodoViewsTests(TestCase):
     def setUp(self):
@@ -43,3 +44,15 @@ class TodoViewsTests(TestCase):
         self.assertEqual(response.status_code, 302)  # Redirect status
         self.assertRedirects(response, reverse('get_todo_list'))
         self.assertFalse(Item.objects.filter(id=self.item.id).exists())
+
+
+class AddItemViewRenderingTests(TestCase):
+    def setUp(self):
+        self.client = Client()
+
+    def test_add_item_rendering(self):
+        # Test rendering the add_item view
+        response = self.client.get(reverse('add_item'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'add_item.html')
+        self.assertIsInstance(response.context['form'], ItemForm)
